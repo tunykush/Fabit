@@ -1,0 +1,67 @@
+body {
+    transition: all ease-in-out 0.5s;
+}
+
+body.light-theme .fa-cloud-moon,
+body.dark-theme .fa-sun {
+    display: none;
+}
+
+body .fa-sun {
+    font-size: 20px;
+    color: var(--white);
+}
+
+body .fa-sun:hover {
+    color: var(--blue-crayola); 
+    animation: blinkGlow 0.5s infinite ease-in-out; 
+}
+
+@keyframes blinkGlow {
+    0% {
+        text-shadow: 0 0 20px var(--blue-crayola), 0 0 40px var(--blue-crayola), 0 0 60px var(--blue-crayola);
+        opacity: 1; 
+    }
+    50% {
+        text-shadow: 0 0 5px var(--blue-crayola), 0 0 10px var(--blue-crayola), 0 0 15px var(--blue-crayola);
+        opacity: 0.2; 
+    }
+    100% {
+        text-shadow: 0 0 20px var(--blue-crayola), 0 0 40px var(--blue-crayola), 0 0 60px var(--blue-crayola);
+        opacity: 1;
+    }
+}
+
+
+body .fa-cloud-moon {
+    font-size: 20px;
+    color: var(--white);
+}
+
+body .fa-cloud-moon:hover {
+    color: var(--blue-crayola); 
+    animation: blinkGlow 0.5s infinite ease-in-out; 
+}
+
+.dark-theme {
+    background-color: black;
+    color: var(--white);
+}
+
+.dark-theme h1,
+.dark-theme h2,
+.dark-theme h3,
+.dark-theme .market-tab .tab-btn,
+.dark-theme .table-heading,
+.dark-theme .market-table :is(.rank, .last-price, .market-cap),
+.dark-theme .market-table .btn-outline,
+.dark-theme .market-table .coin-name,
+.dark-theme .market .btn-link{
+    color: var(--white);
+}
+
+.dark-theme .services-tab .service-content,
+.dark-theme .latest-item h3 {
+    color: var(--eerie-black-1);
+
+}

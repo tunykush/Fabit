@@ -1,0 +1,44 @@
+    /* Falling and rotating animation */
+    .falling-image {
+        position: absolute;
+        top: 0;
+        width: 15px; 
+        animation: snowfall 10s linear infinite, spin 5s linear infinite; 
+        opacity: 0.7422536; 
+        filter: brightness(0); 
+        pointer-events: none; 
+    }
+    
+    /* Keyframes for the snowfall animation */
+    @keyframes snowfall {
+        0% {
+            top: -100px;
+            transform: translateX(0);
+            opacity: 0;
+        }
+        10% {
+            opacity: 0.689;
+        }
+        50% {
+            transform: translateX(25.435443px); 
+        }
+        100% {
+            top: 100vh;
+            transform: translateX(-22.864345px); 
+            opacity: 0.1;
+        }
+    }
+    
+    /* Keyframes for spinning animation */
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg); 
+        }
+        50% {
+            transform: rotate(176deg);
+        }
+        100% {
+            transform: rotate(340deg); 
+        }
+    }
+    
