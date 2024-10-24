@@ -46,12 +46,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
         $loginError = "Incorrect Captcha. Please try again.";
     } else {
         if (is_array($checkUser)) {
-                if ( password_verify($password, $checkUser['password'])) {
+                if ( password_verify($password, $checkUser['password']) && $checkUser['isLocked']==0) {
+                    clearCountWrongPass($userName);
                     $_SESSION['username'] = $userName;
                     header("Location:../../home.php");
                     exit;
                 }else{
-            $loginError = "Invalid Password!";
+                    if($checkUser['countWrongPass']>=2){
+                        if($checkUser['isLocked']==0){
+                            clearCountWrongPass($userName);
+                            lockUser($userName);
+                            $loginError = "Your account is locked!";
+                        }else{
+                            $loginError = "Your account is locked!";
+                        }
+                    }else{
+                        increaseCountWrongPass($userName);
+                         $loginError = "Invalid Password!";
+                    }
                 } 
         }else{
             $loginError = "Invalid Username!";
