@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+include_once("../config/php/authModel.php");
 if (isset($_SESSION['username'])) {
     header("Location:../../home.php");
     exit;
@@ -9,25 +9,19 @@ if (isset($_SESSION['username'])) {
 $loginError = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup'])) {
-    $username = $_POST['signupUsername'];
+    $userName = $_POST['signupUsername'];
     $email = $_POST['signupEmail'];
     $password = password_hash($_POST['signupPassword'], PASSWORD_BCRYPT);
-
-    $newUser = array(
-        "username" => $username,
-        "email" => $email,
-        "password" => $password,
-        "avatar" => "default.png"
-    );
-
-    if (!isset($_SESSION['users']) || !is_array($_SESSION['users'])) {
-        $_SESSION['users'] = [];
-    }
-
-    $userList = $_SESSION['users'];
+    // $newUser = array(
+    //     "username" => $username,
+    //     "email" => $email,
+    //     "password" => $password,
+    //     "avatar" => "default.png"
+    // );
+    $userList = getAllUser();
 
     foreach ($userList as $existingUser) {
-        if ($existingUser['username'] === $username) {
+        if ($existingUser['userName'] === $userName) {
             $loginError = "Username already exists!";
             break;
         } else if ($existingUser['email'] === $email) {
@@ -37,31 +31,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup'])) {
     }
 
     if ($loginError === "") {
-        $userList[] = $newUser;
-        $_SESSION['users'] = $userList;
+        register($userName, $email, $password);
         header("Location: " . $_SERVER['PHP_SELF']);
         exit;
     }
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
-    $username = $_POST['loginUsername'];
+    $userName = $_POST['loginUsername'];
     $password = $_POST['loginPassword'];
     $captchaInput = trim($_POST['captchaInput']);
-
+    $checkUser=checkUser($userName);
     if ($captchaInput !== $_SESSION['captchaText']) {
         $loginError = "Incorrect Captcha. Please try again.";
     } else {
-        if (isset($_SESSION['users']) && is_array($_SESSION['users'])) {
-            foreach ($_SESSION['users'] as $existingUser) {
-                if ($existingUser['username'] === $username && password_verify($password, $existingUser['password'])) {
-                    $_SESSION['username'] = $username;
+        if (is_array($checkUser)) {
+                if ( password_verify($password, $checkUser['password'])) {
+                    $_SESSION['username'] = $userName;
                     header("Location:../../home.php");
                     exit;
-                } else {
-                    $loginError = "Invalid Username or Password!";
-                }
-            }
+                }else{
+            $loginError = "Invalid Password!";
+                } 
+        }else{
+            $loginError = "Invalid Username!";
+
         }
     }
 }

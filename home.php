@@ -1,15 +1,16 @@
 <?php
 session_start();
+include_once("assets/config/php/authModel.php");
 // if ($_SESSION['username'] == null) {
 //     header("Location:./landingpage.php");
 //     exit;
 // }
 
-$userList = $_SESSION['users'];
+$userList = getAllUser();
 $currentUser = null;
 
 foreach ($userList as $user) {
-    if ($user['username'] == $_SESSION['username']) {
+    if ($user['userName'] == $_SESSION['username']) {
         $currentUser = $user;
     }
 }
@@ -200,7 +201,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['logout'])) {
           </div>
           <div class="profile">
             <div class="info">
-              <p>Welcome back, <b><?php echo $currentUser['username'] ?></b></p>
+              <p>Welcome back, <b><?php echo $currentUser['userName'] ?></b></p>
               <small class="text-muted">User</small>
             </div>
             <div class="profile-photo">
