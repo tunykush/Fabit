@@ -41,7 +41,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `userName`, `email`, `password`, `countWrongPass`, `isLocked`) VALUES
-(2, 'namzee', 'nguyenvudaianm113@gmail.com', '$2y$10$0MuXn72uYwlQ8raupA5Q3eKCcccNOItLm.mzA2FnvOjCERBGncSS2', 0, 0);
+(2, 'namzee', 'namzee113@gmail.com', '$2y$10$0MuXn72uYwlQ8raupA5Q3eKCcccNOItLm.mzA2FnvOjCERBGncSS2', 0, 0);
 
 --
 -- Indexes for dumped tables
