@@ -13,6 +13,10 @@ function checkUser($userName){
     $sql="SELECT * FROM users WHERE userName='$userName'";
     return pdo_query_one($sql);
 }
+function checkEmailUser($email){
+    $sql="SELECT * FROM users WHERE email='$email'";
+    return pdo_query($sql);
+}
 
 function increaseCountWrongPass($userName){
     $sql="UPDATE users SET countWrongPass=countWrongPass+1 WHERE userName='$userName'";
@@ -25,5 +29,10 @@ function lockUser($userName){
 
 function clearCountWrongPass($userName){
     $sql="UPDATE users SET countWrongPass=0 WHERE userName='$userName'";
+    return pdo_execute($sql);
+}
+
+function updateUser( $email, $password,$avatar,$id){
+    $sql="UPDATE users SET email='$email',password='$password',avatar='$avatar' WHERE id=$id";
     return pdo_execute($sql);
 }

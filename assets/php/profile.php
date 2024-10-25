@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once("../config/php/authModel.php");
 // if($_SESSION['username'] == null){
 //     header("Location: ../../landingpage.php");
 //     exit;
@@ -8,11 +9,11 @@ session_start();
 ini_set('upload_max_filesize', '50M');
 ini_set('post_max_size', '50M');
 
-$userList = $_SESSION['users'];
+$userList = getAllUser();
 $currentUser = null;
 
 foreach ($userList as $user) {
-    if ($user['username'] == $_SESSION['username']) {
+    if ($user['userName'] == $_SESSION['username']['userName']) {
         $currentUser = $user;
     }
 }
@@ -27,57 +28,57 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $oldPassword = $_POST['oldPassword'];
     $newPassword = $_POST['new-password'];
     $confirmPassword = $_POST['confirm-password'];
-
-    if (isset($email) && $email != $currentUser['email']) {
-        $currentUser['email'] = $email;
+    if($email==$_SESSION['username']['email']){
+        $checkEmailUser=[];
+    }else{
+        $checkEmailUser=checkEmailUser($email);
     }
-
-    if (password_verify($oldPassword, $currentUser['password'])) {
-        if ($newPassword == $confirmPassword) {
-            $currentUser['password'] = password_hash($newPassword, PASSWORD_BCRYPT);
-        }
-    }
-
-    if (isset($_FILES['avatar-upload'])) {
-        $avatar = $_FILES['avatar-upload'];
-        $avatarName = $avatar['name'];
-        $avatarTmpName = $avatar['tmp_name'];
-        $avatarSize = $avatar['size'];
-        $avatarError = $avatar['error'];
-
-        if ($avatarError == 0) {
-            $avatarExt = explode('.', $avatarName);
-            $avatarActualExt = strtolower(end($avatarExt));
-
-            $allowed = array('jpg', 'jpeg', 'png');
-
-            if (in_array($avatarActualExt, $allowed)) {
-                if ($avatarSize < 5000000) {
-                    $avatarNameNew = uniqid('', true) . "." . $avatarActualExt;
-                    $avatarDestination = "../images/avatar/" . $avatarNameNew;
-                    move_uploaded_file($avatarTmpName, $avatarDestination);
-                    $currentUser['avatar'] = $avatarNameNew;
+    if (isset($email) && count($checkEmailUser)==0 && password_verify($oldPassword, $_SESSION['username']['password']) && $newPassword==$confirmPassword) {
+        $newpass = password_hash($newPassword, PASSWORD_BCRYPT);
+        if (isset($_FILES['avatar-upload'])) {
+            $avatar = $_FILES['avatar-upload'];
+            $avatarName = $avatar['name'];
+            $avatarTmpName = $avatar['tmp_name'];
+            $avatarSize = $avatar['size'];
+            $avatarError = $avatar['error'];
+    
+            if ($avatarError == 0) {
+                $avatarExt = explode('.', $avatarName);
+                $avatarActualExt = strtolower(end($avatarExt));
+    
+                $allowed = array('jpg', 'jpeg', 'png');
+    
+                if (in_array($avatarActualExt, $allowed)) {
+                    if ($avatarSize < 5000000) {
+                        $avatarNameNew = uniqid('', true) . "." . $avatarActualExt;
+                        $avatarDestination = "../images/avatar/" . $avatarNameNew;
+                        move_uploaded_file($avatarTmpName, $avatarDestination);
+                        // $currentUser['avatar'] = $avatarNameNew;
+                        updateUser( $email, $newpass,$avatarNameNew,$_SESSION['username']['id']);
+                    }
+                }else{
+                    $avatarNameNew='default.png';
+                    updateUser( $email, $newpass,$avatarNameNew,$_SESSION['username']['id']);
                 }
             }
+            
         }
-    }
-
-    foreach ($userList as $key => $user) {
-        if ($user['username'] == $currentUser['username']) {
-            $userList[$key] = $currentUser;
-        }
+        unset($_SESSION['username']);
+        $_SESSION['username']=checkEmailUser($email);
+        $currentUser=$_SESSION['username'][0];
+    }else{
+        header("Location: ../../landingpage.php");
     }
 
     
 
-    $_SESSION['users'] = $userList;
-    if (isset($newPassword) && !empty($newPassword)) {
-        unset($_SESSION['username']);
-        header("Location: ../../landingpage.php");
-    } else {
-        header("Location: " . $_SERVER['PHP_SELF']);
-    }
-    exit;
+    // $_SESSION['users'] = $userList;
+    // if (isset($newPassword) && !empty($newPassword)) {
+    //     unset($_SESSION['username']);
+    //     header("Location: ../../landingpage.php");
+    // } else {
+    //     header("Location: " . $_SERVER['PHP_SELF']);
+    // }
 }
 ?>
 

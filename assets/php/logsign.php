@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
         if (is_array($checkUser)) {
                 if ( password_verify($password, $checkUser['password']) && $checkUser['isLocked']==0) {
                     clearCountWrongPass($userName);
-                    $_SESSION['username'] = $userName;
+                    $_SESSION['username'] = $checkUser;
                     header("Location:../../home.php");
                     exit;
                 }else{
@@ -62,7 +62,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
                         }
                     }else{
                         increaseCountWrongPass($userName);
-                         $loginError = "Invalid Password!";
+                        if($checkUser['countWrongPass']>1){
+                            $count=2-$checkUser['countWrongPass'];
+                            $loginError = "Invalid Password! You have $count more times try left";
+                        }else{
+                            $count=2-$checkUser['countWrongPass'];
+                            $loginError = "Invalid Password! You have $count more time try left";
+                        }
                     }
                 } 
         }else{

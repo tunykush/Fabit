@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3307
--- Generation Time: Oct 24, 2024 at 07:35 PM
+-- Generation Time: Oct 25, 2024 at 06:36 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -32,6 +32,7 @@ CREATE TABLE `users` (
   `userName` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
+  `avatar` varchar(255) NOT NULL,
   `countWrongPass` tinyint(4) NOT NULL DEFAULT 0,
   `isLocked` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -40,8 +41,8 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `userName`, `email`, `password`, `countWrongPass`, `isLocked`) VALUES
-(2, 'namzee', 'namzee113@gmail.com', '$2y$10$0MuXn72uYwlQ8raupA5Q3eKCcccNOItLm.mzA2FnvOjCERBGncSS2', 0, 0);
+INSERT INTO `users` (`id`, `userName`, `email`, `password`, `avatar`, `countWrongPass`, `isLocked`) VALUES
+(2, 'namzee', 'yourmom115@gmail.com', '$2y$10$nHSsMJ47g3mJmjjqb8zEiOzQepgUf.WYhBWxTQAFd7qUpcLWrrDQ.', '6713c2cbe2b894.21940763.jpg', 0, 0);
 
 --
 -- Indexes for dumped tables

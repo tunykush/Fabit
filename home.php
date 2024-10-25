@@ -10,7 +10,7 @@ $userList = getAllUser();
 $currentUser = null;
 
 foreach ($userList as $user) {
-    if ($user['userName'] == $_SESSION['username']) {
+    if ($user['userName'] == $_SESSION['username']['userName']) {
         $currentUser = $user;
     }
 }
@@ -205,7 +205,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['logout'])) {
               <small class="text-muted">User</small>
             </div>
             <div class="profile-photo">
-              <img src="<?php echo "./assets/images/avatar/".$currentUser['avatar']; ?>" alt="Profile Picture" />
+              <img src="<?php echo "assets/images/avatar/".$currentUser['avatar']; ?>" alt="Profile Picture" />
             </div>
           </div>
         </div>
