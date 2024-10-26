@@ -79,6 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
     <title>Login & Signup</title>
     <link rel="stylesheet" href="../css/logsign.css"/>
     <link rel="stylesheet" href="../css/logsigeffects.css"/>
+    <link rel="shortcut icon" href="../favicon.svg" type="image/svg+xml"/>
 </head>
 
 <body>
