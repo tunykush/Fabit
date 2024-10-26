@@ -2,7 +2,7 @@
 /**
  * Mở kết nối đến CSDL sử dụng PDO
  */
-define('DBHOST', '127.0.0.1');
+define('DBHOST', 'localhost');
 define('DBUSER', 'root');
 define('DBPASS', '');
 define('DBNAME', 'tuny_db');
