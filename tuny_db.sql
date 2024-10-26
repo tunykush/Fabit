@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3307
--- Generation Time: Oct 25, 2024 at 06:36 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Host: localhost
+-- Generation Time: Oct 26, 2024 at 07:38 AM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.0.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -32,7 +32,7 @@ CREATE TABLE `users` (
   `userName` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `avatar` varchar(255) NOT NULL,
+  `avatar` varchar(255) DEFAULT NULL,
   `countWrongPass` tinyint(4) NOT NULL DEFAULT 0,
   `isLocked` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -42,7 +42,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `userName`, `email`, `password`, `avatar`, `countWrongPass`, `isLocked`) VALUES
-(2, 'namzee', 'yourmom115@gmail.com', '$2y$10$nHSsMJ47g3mJmjjqb8zEiOzQepgUf.WYhBWxTQAFd7qUpcLWrrDQ.', '6713c2cbe2b894.21940763.jpg', 0, 0);
+(2, 'namzee', 'yourmom115@gmail.com', '$2y$10$nHSsMJ47g3mJmjjqb8zEiOzQepgUf.WYhBWxTQAFd7qUpcLWrrDQ.', '6713c2cbe2b894.21940763.jpg', 0, 0),
+(3, 'adasdada', '123@gmail.com', '$2y$10$jQfO67iTUfMMKXaH6fFRHen/DNqjYPncFArZeAz6Aytpl73.0R14.', NULL, 0, 0),
+(4, 'qweqweqeq', 'qweqweqeq@gmail.com', '$2y$10$irUgnksmDEAJuOJ86pSLkeEzoEOAj/00./hYUTr8prDZZtZm6T4vy', NULL, 0, 0);
 
 --
 -- Indexes for dumped tables
@@ -62,7 +64,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
