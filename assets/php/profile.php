@@ -90,6 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crypto Web Profile Settings</title>
     <link rel="stylesheet" href="../css/profile.css">
+    <link rel="shortcut icon" href="../../ffavicon.svg" type="image/svg+xml" />
 </head>
 
 <body>
