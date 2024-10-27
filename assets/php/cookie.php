@@ -1,5 +1,5 @@
 <head>
-  <link rel="stylesheet" href="./assets/css/cookie.css" />
+  <link rel="stylesheet" href="/assets/css/cookie.css" />
 </head>
   <div class="wrapper">
     <img src="/assets/images/cookie.png" alt="cookie" />
