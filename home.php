@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['logout'])) {
       <aside>
         <div class="top">
           <div class="logo">
-            <img src="../ffavicon.svg" alt="Logo" />
+            <img src="/ffavicon.svg" alt="Logo" />
             <h2>Fabit<span class="danger"></span></h2>
           </div>
           <div class="close" id="close-btn">
