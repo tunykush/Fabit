@@ -42,9 +42,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `userName`, `email`, `password`, `avatar`, `countWrongPass`, `isLocked`) VALUES
-(2, 'namzee', 'yourmom115@gmail.com', '$2y$10$nHSsMJ47g3mJmjjqb8zEiOzQepgUf.WYhBWxTQAFd7qUpcLWrrDQ.', '6713c2cbe2b894.21940763.jpg', 0, 0),
-(3, 'adasdada', '123@gmail.com', '$2y$10$jQfO67iTUfMMKXaH6fFRHen/DNqjYPncFArZeAz6Aytpl73.0R14.', NULL, 0, 0),
-(4, 'qweqweqeq', 'qweqweqeq@gmail.com', '$2y$10$irUgnksmDEAJuOJ86pSLkeEzoEOAj/00./hYUTr8prDZZtZm6T4vy', NULL, 0, 0);
+(2, 'user1', 'yourmom115@gmail.com', '$2y$10$nHSsMJ47g3mJmjjqb8zEiOzQepgUf.WYhBWxTQAFd7qUpcLWrrDQ.', '6713c2cbe2b894.21940763.jpg', 0, 0),
+(3, 'user2', '123@gmail.com', '$2y$10$jQfO67iTUfMMKXaH6fFRHen/DNqjYPncFArZeAz6Aytpl73.0R14.', NULL, 0, 0),
+(4, 'user3', 'qweqweqeq@gmail.com', '$2y$10$irUgnksmDEAJuOJ86pSLkeEzoEOAj/00./hYUTr8prDZZtZm6T4vy', NULL, 0, 0);
 
 --
 -- Indexes for dumped tables
