@@ -205,7 +205,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['logout'])) {
               <small class="text-muted">User</small>
             </div>
             <div class="profile-photo">
-              <img src="<?php echo "assets/images/avatar/".$currentUser['avatar']; ?>" alt="Profile Picture" />
+              <img src="<?php echo $currentUser['avatar']; ?>" alt="Profile Picture" />
             </div>
           </div>
         </div>
@@ -230,9 +230,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['logout'])) {
       </div>
     </div>
 
-    <script src="/assets/js/homejs/recent-order-data.js"></script>
-    <script src="/assets/js/homejs/update-data.js"></script>
-    <script src="/assets/js/homejs/sales-analytics-data.js"></script>
-    <script src="/assets/js/home.js"></script>
+    <script src="assets/js/homejs/recent-order-data.js"></script>
+    <script src="assets/js/homejs/update-data.js"></script>
+    <script src="assets/js/homejs/sales-analytics-data.js"></script>
+    <script src="assets/js/home.js"></script>
   </body>
 </html>

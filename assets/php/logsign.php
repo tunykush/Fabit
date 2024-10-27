@@ -14,6 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup'])) {
     $password = password_hash($_POST['signupPassword'], PASSWORD_BCRYPT);
 
     $result = checkUserExist($userName, $email);
+   
 
     if ($result->num_rows > 0) {
         $loginError = "Username or email already exists.";
@@ -32,41 +33,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
     $password = $_POST['loginPassword'];
     $captchaInput = trim($_POST['captchaInput']);
     $checkUser = checkUser($userName);
+
+   
     if ($captchaInput !== $_SESSION['captchaText']) {
         $loginError = "Incorrect Captcha. Please try again.";
     } else {
         if (is_array($checkUser)) {
-            if (password_verify($password, $checkUser['password']) && $checkUser['isLocked'] == 0) {
-                clearCountWrongPass($userName);
-                $_SESSION['username'] = $checkUser;
-                header("Location:../../home.php");
-                exit;
+         
+            if ($checkUser['isLocked'] == 1) {
+                $loginError = "Your account is locked!";
             } else {
-                if ($checkUser['countWrongPass'] >= 2) {
-                    if ($checkUser['isLocked'] == 0) {
-                        clearCountWrongPass($userName);
-                        lockUser($userName);
-                        $loginError = "Your account is locked!";
-                    } else {
-                        $loginError = "Your account is locked!";
-                    }
+                if (password_verify($password, $checkUser['password'])) {
+                    clearCountWrongPass($userName);
+                    $_SESSION['username'] = $checkUser;
+                    header("Location:../../home.php");
+                    exit;
                 } else {
                     increaseCountWrongPass($userName);
-                    if ($checkUser['countWrongPass'] > 1) {
-                        $count = 2 - $checkUser['countWrongPass'];
-                        $loginError = "Invalid Password! You have $count more times try left";
+                    $count = 2 - $checkUser['countWrongPass'];
+                    if ($checkUser['countWrongPass'] >= 2) {
+                        lockUser($userName);
+                        $loginError = "Your account has been locked due to too many failed login attempts!";
                     } else {
-                        $count = 2 - $checkUser['countWrongPass'];
-                        $loginError = "Invalid Password! You have $count more time try left";
+                        $loginError = "Invalid Password! You have $count more try" . ($count > 1 ? "s" : "") . " left.";
                     }
                 }
             }
         } else {
             $loginError = "Invalid Username!";
-
         }
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -79,7 +77,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
     <title>Login & Signup</title>
     <link rel="stylesheet" href="../css/logsign.css"/>
     <link rel="stylesheet" href="../css/logsigeffects.css"/>
-    <link rel="shortcut icon" href="../favicon.svg" type="image/svg+xml"/>
 </head>
 
 <body>

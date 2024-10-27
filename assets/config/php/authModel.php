@@ -54,6 +54,23 @@ function clearCountWrongPass($userName)
 
 function updateUser($email, $password, $avatar, $id)
 {
-    $sql = "UPDATE users SET email='$email',password='$password',avatar='$avatar' WHERE id=$id";
-    return pdo_execute($sql);
+    $sql = "UPDATE users SET email=:email,password=:password,avatar=:avatar WHERE id=:id";
+    $conn = pdo_get_connection();
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':email', $email);
+    $stmt->bindParam(':password', $password);
+    $stmt->bindParam(':avatar', $avatar);
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    return $stmt->execute();
+}
+function hasAvatar($userId)
+{
+    $sql = "SELECT avatar FROM users WHERE id=:id";
+    $conn = pdo_get_connection();
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':id', $userId, PDO::PARAM_INT);
+    $stmt->execute();
+    
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    return !empty($result['avatar']); 
 }

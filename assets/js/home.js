@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", (ev) => {
   // Document Builder
   const buildTableBody = () => {
     const recentOrderData = RECENT_ORDER_DATA;
+    console.log(recentOrderData);
   
     const tbody = document.createElement("tbody");
   

@@ -2,7 +2,7 @@
 /**
  * Mở kết nối đến CSDL sử dụng PDO
  */
-define('DBHOST', 'localhost');
+define('DBHOST', '127.0.0.1:3306');
 define('DBUSER', 'root');
 define('DBPASS', '');
 define('DBNAME', 'tuny_db');
@@ -37,11 +37,9 @@ function pdo_execute($sql)
         $stmt = $conn->prepare($sql);
         $stmt->execute($sql_args);
         return true;
-    } 
-    catch (PDOException $e) {
+    } catch (PDOException $e) {
         throw $e;
-    } 
-    finally {
+    } finally {
         unset($conn);
     }
     return true;
@@ -173,11 +171,9 @@ function pdo_query_value($sql)
         $stmt->execute($sql_args);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return array_values($row)[0];
-    } 
-    catch (PDOException $e) {
+    } catch (PDOException $e) {
         throw $e;
-    } 
-    finally {
+    } finally {
         unset($conn);
     }
 }

@@ -1,9 +1,9 @@
 <?php
 
-$servername = "localhost";
+$servername = "localhost:3306";
 $username = "root";
-$password = "123456";
-$dbname = "projects";
+$password = "";
+$dbname = "tuny_db";
 
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $dbname);

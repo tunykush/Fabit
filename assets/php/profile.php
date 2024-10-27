@@ -1,5 +1,7 @@
 <?php
 session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 include_once("../config/php/authModel.php");
 // if($_SESSION['username'] == null){
 //     header("Location: ../../landingpage.php");
@@ -22,9 +24,11 @@ if ($currentUser == null) {
     header("Location: ../../landingpage.php");
     exit;
 }
+$hasAvatar = hasAvatar($currentUser['id']);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
+   
     $oldPassword = $_POST['oldPassword'];
     $newPassword = $_POST['new-password'];
     $confirmPassword = $_POST['confirm-password'];
@@ -35,37 +39,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     if (isset($email) && count($checkEmailUser)==0 && password_verify($oldPassword, $_SESSION['username']['password']) && $newPassword==$confirmPassword) {
         $newpass = password_hash($newPassword, PASSWORD_BCRYPT);
-        if (isset($_FILES['avatar-upload'])) {
+        if (isset($_FILES['avatar-upload']) && $_FILES['avatar-upload']['error'] == 0 ) {
             $avatar = $_FILES['avatar-upload'];
-            $avatarName = $avatar['name'];
             $avatarTmpName = $avatar['tmp_name'];
-            $avatarSize = $avatar['size'];
-            $avatarError = $avatar['error'];
-    
-            if ($avatarError == 0) {
-                $avatarExt = explode('.', $avatarName);
-                $avatarActualExt = strtolower(end($avatarExt));
-    
-                $allowed = array('jpg', 'jpeg', 'png');
-    
-                if (in_array($avatarActualExt, $allowed)) {
-                    if ($avatarSize < 5000000) {
-                        $avatarNameNew = uniqid('', true) . "." . $avatarActualExt;
-                        $avatarDestination = "../images/avatar/" . $avatarNameNew;
-                        move_uploaded_file($avatarTmpName, $avatarDestination);
-                        // $currentUser['avatar'] = $avatarNameNew;
-                        updateUser( $email, $newpass,$avatarNameNew,$_SESSION['username']['id']);
-                    }
-                }else{
-                    $avatarNameNew='default.png';
-                    updateUser( $email, $newpass,$avatarNameNew,$_SESSION['username']['id']);
-                }
-            }
-            
+            $avatarData = file_get_contents($avatarTmpName);
+            $avatarBase64 = base64_encode($avatarData);
+            $avatarNameNew = 'data:' . $avatar['type'] . ';base64,' . $avatarBase64;
+           
         }
-        unset($_SESSION['username']);
-        $_SESSION['username']=checkEmailUser($email);
-        $currentUser=$_SESSION['username'][0];
+        else {
+            if(!$hasAvatar)
+            {
+                $avatarNameNew = 'data:image/png;base64,' . base64_encode(file_get_contents('../images/avatar/default.png'));
+            }else{
+                $avatarNameNew = $currentUser['avatar'];
+            }
+        } 
+        
+
+        // Cập nhật người dùng
+        if (!updateUser($email, $newpass, $avatarNameNew, $_SESSION['username']['id'])) {
+            die('Error updating user.');
+        }else{
+            $_SESSION['username']['password'] = $newpass;
+            header(header: "Location: ../../home.php");
+        }
+
+      
     }else{
         header("Location: ../../landingpage.php");
     }
@@ -90,7 +90,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crypto Web Profile Settings</title>
     <link rel="stylesheet" href="../css/profile.css">
-    <link rel="shortcut icon" href="../../ffavicon.svg" type="image/svg+xml" />
 </head>
 
 <body>
@@ -106,7 +105,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <!-- Avatar Upload -->
                     <div class="avatar-section">
                         <label for="avatar-upload" class="avatar-label">
-                            <img src='<?php echo "../images/avatar/" . $currentUser["avatar"]; ?>' alt="Profile Picture" class="profile-img" id="avatar-preview" />
+                            <img src='<?php echo $currentUser["avatar"]; ?>' alt="Profile Picture" class="profile-img" id="avatar-preview" />
                         </label>
                         <input type="file" id="avatar-upload" name="avatar-upload" style="display: none;" accept="image/*">
                         <p class="upload-instructions">Click the image to upload a new avatar</p>
