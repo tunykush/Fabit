@@ -1,7 +1,9 @@
 <?php
 session_start();
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+
+    if(!isset($_SESSION["error"])){
+        $_SESSION["error"] = "";
+    }
 include_once("../config/php/authModel.php");
 // if($_SESSION['username'] == null){
 //     header("Location: ../../landingpage.php");
@@ -67,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
       
     }else{
-        header("Location: ../../landingpage.php");
+        $_SESSION["error"]  = "invalid email or password";
     }
 
     
@@ -110,7 +112,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <input type="file" id="avatar-upload" name="avatar-upload" style="display: none;" accept="image/*">
                         <p class="upload-instructions">Click the image to upload a new avatar</p>
                     </div>
-
+                    <center> <font color=red><?php echo $_SESSION["error"]; ?></font><br></center>
+                        
                     <!-- Username -->
                     <label for="email">Email</label>
                     <input type="text" id="email" name="email" value="<?php echo $currentUser['email'] ?>">

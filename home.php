@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 include_once("assets/config/php/authModel.php");
 // if ($_SESSION['username'] == null) {
 //     header("Location:./landingpage.php");
@@ -21,9 +22,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['logout'])) {
     exit;
 }
 ?>
-
-
-<!-- HTML -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -45,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['logout'])) {
       <aside>
         <div class="top">
           <div class="logo">
-            <img src="/ffavicon.svg" alt="Logo" />
+            <img src="../ffavicon.svg" alt="Logo" />
             <h2>Fabit<span class="danger"></span></h2>
           </div>
           <div class="close" id="close-btn">
