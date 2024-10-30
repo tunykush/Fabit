@@ -91,6 +91,8 @@ function sendOtpToEmail($email, $otp) {
         $mail->SMTPAuth   = true;
         $mail->Username   = 'anh0180666@huce.edu.vn'; // SMTP username
         $mail->Password   = 'Anh282828@'; // SMTP password
+        //$mail->Username   = 'khanh.phampnhk0511@hcmut.edu.vn';
+        //$mail->Password   = 'pnhk0511';
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port       = 587;
 
