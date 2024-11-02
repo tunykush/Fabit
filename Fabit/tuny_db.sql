@@ -18,31 +18,31 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: tuny_db
+-- Database: `tuny_db`
 --
 CREATE Database tuny_db;
 use tuny_db;
 -- --------------------------------------------------------
 
 --
--- Table structure for table users
+-- Table structure for table `users`
 --
 
-CREATE TABLE users (
-  id bigint(20) NOT NULL,
-  userName varchar(255) NOT NULL,
-  email varchar(255) NOT NULL,
-  password varchar(255) NOT NULL,
-  avatar varchar(255) DEFAULT NULL,
-  countWrongPass tinyint(4) NOT NULL DEFAULT 0,
-  isLocked tinyint(4) NOT NULL DEFAULT 0
+CREATE TABLE `users` (
+  `id` bigint(20) NOT NULL,
+  `userName` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `avatar` varchar(255) DEFAULT NULL,
+  `countWrongPass` tinyint(4) NOT NULL DEFAULT 0,
+  `isLocked` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table users
+-- Dumping data for table `users`
 --
 
-INSERT INTO users (id, userName, email, password, avatar, countWrongPass, isLocked) VALUES
+INSERT INTO `users` (`id`, `userName`, `email`, `password`, `avatar`, `countWrongPass`, `isLocked`) VALUES
 (2, 'namzee', 'yourmom115@gmail.com', '$2y$10$nHSsMJ47g3mJmjjqb8zEiOzQepgUf.WYhBWxTQAFd7qUpcLWrrDQ.', '6713c2cbe2b894.21940763.jpg', 0, 0),
 (3, 'adasdada', '123@gmail.com', '$2y$10$jQfO67iTUfMMKXaH6fFRHen/DNqjYPncFArZeAz6Aytpl73.0R14.', NULL, 0, 0),
 (4, 'qweqweqeq', 'qweqweqeq@gmail.com', '$2y$10$irUgnksmDEAJuOJ86pSLkeEzoEOAj/00./hYUTr8prDZZtZm6T4vy', NULL, 0, 0);
@@ -52,22 +52,22 @@ INSERT INTO users (id, userName, email, password, avatar, countWrongPass, isLock
 --
 
 --
--- Indexes for table users
+-- Indexes for table `users`
 --
-ALTER TABLE users
-  ADD PRIMARY KEY (id);
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
-ALTER TABLE users
-MODIFY avatar LONGTEXT DEFAULT NULL;
+ALTER TABLE `users`
+MODIFY `avatar` LONGTEXT DEFAULT NULL;
 
 --
--- AUTO_INCREMENT for table users
+-- AUTO_INCREMENT for table `users`
 --
-ALTER TABLE users
-  MODIFY id bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+ALTER TABLE `users`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

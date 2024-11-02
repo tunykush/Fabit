@@ -1,8 +1,8 @@
 <?php
 
-$servername = "localhost:3306";
+$servername = "localhost";
 $username = "root";
-$password = "12345678";
+$password = "";
 $dbname = "tuny_db";
 
 // Create connection

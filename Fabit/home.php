@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-include_once("assets/config/php/authModel.php");
+include_once("app/controllers/authModel.php");
 // if ($_SESSION['username'] == null) {
 //     header("Location:./landingpage.php");
 //     exit;
@@ -18,7 +18,8 @@ foreach ($userList as $user) {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['logout'])) {
     unset($_SESSION['username']);
-    header("Location:./landingpage.php");
+    echo "a";
+    header("Location: landingpage.php");
     exit;
 }
 ?>
@@ -89,7 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['logout'])) {
             <span class="material-icons-sharp"> report_gmailerrorred </span>
             <h3>Reports</h3>
           </a>
-          <a href="./assets/php/profile.php">
+          <a href="../Fabit/app/views/profile.php">
             <span class="material-icons-sharp"> settings </span>
             <h3>Settings</h3>
           </a>

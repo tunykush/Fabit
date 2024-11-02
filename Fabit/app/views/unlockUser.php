@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['verifyOtp'])) {
                 $otpSuccess = "OTP verified and account unlocked successfully!";
                 
                 unset($_SESSION['otp'], $_SESSION['otpEmail'], $_SESSION['otpExpires']);
-              
+                echo $email;
             } else {
                 $otpError = "Failed to unlock account. Please try again.";
                 $otpSent = true;

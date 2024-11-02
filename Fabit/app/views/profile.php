@@ -1,20 +1,15 @@
 <?php
 session_start();
-
-    if(!isset($_SESSION["error"])){
-        $_SESSION["error"] = "";
-    }
-include_once("../config/php/authModel.php");
-// if($_SESSION['username'] == null){
-//     header("Location: ../../landingpage.php");
-//     exit;
-// }
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+include_once("../controllers/authModel.php");
 
 ini_set('upload_max_filesize', '50M');
 ini_set('post_max_size', '50M');
 
 $userList = getAllUser();
 $currentUser = null;
+$error = ""; // Variable to store error message
 
 foreach ($userList as $user) {
     if ($user['userName'] == $_SESSION['username']['userName']) {
@@ -26,74 +21,67 @@ if ($currentUser == null) {
     header("Location: ../../landingpage.php");
     exit;
 }
+
 $hasAvatar = hasAvatar($currentUser['id']);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
-   
     $oldPassword = $_POST['oldPassword'];
     $newPassword = $_POST['new-password'];
     $confirmPassword = $_POST['confirm-password'];
-    if($email==$_SESSION['username']['email']){
-        $checkEmailUser=[];
-    }else{
-        $checkEmailUser=checkEmailUser($email);
+
+    if ($email == $_SESSION['username']['email']) {
+        $checkEmailUser = [];
+    } else {
+        $checkEmailUser = checkEmailUser($email);
     }
-    if (isset($email) && count($checkEmailUser)==0 && password_verify($oldPassword, $_SESSION['username']['password']) && $newPassword==$confirmPassword) {
+
+    if (isset($email) && count($checkEmailUser) == 0 && password_verify($oldPassword, $_SESSION['username']['password']) && $newPassword == $confirmPassword) {
         $newpass = password_hash($newPassword, PASSWORD_BCRYPT);
-        if (isset($_FILES['avatar-upload']) && $_FILES['avatar-upload']['error'] == 0 ) {
+
+        if (isset($_FILES['avatar-upload']) && $_FILES['avatar-upload']['error'] == 0) {
             $avatar = $_FILES['avatar-upload'];
             $avatarTmpName = $avatar['tmp_name'];
             $avatarData = file_get_contents($avatarTmpName);
             $avatarBase64 = base64_encode($avatarData);
             $avatarNameNew = 'data:' . $avatar['type'] . ';base64,' . $avatarBase64;
-           
-        }
-        else {
-            if(!$hasAvatar)
-            {
+        } else {
+            if (!$hasAvatar) {
                 $avatarNameNew = 'data:image/png;base64,' . base64_encode(file_get_contents('../images/avatar/default.png'));
-            }else{
+            } else {
                 $avatarNameNew = $currentUser['avatar'];
             }
-        } 
-        
-
-        // Cập nhật người dùng
-        if (!updateUser($email, $newpass, $avatarNameNew, $_SESSION['username']['id'])) {
-            die('Error updating user.');
-        }else{
-            $_SESSION['username']['password'] = $newpass;
-            header(header: "Location: ../../home.php");
         }
 
-      
-    }else{
-        $_SESSION["error"]  = "invalid email or password";
+        // Update user
+        if (!updateUser($email, $newpass, $avatarNameNew, $_SESSION['username']['id'])) {
+            die('Error updating user.');
+        } else {
+            $_SESSION['username']['password'] = $newpass;
+            header("Location: ../../home.php");
+            exit;
+        }
+    } else {
+        // If there's an error, set the error message
+        if (!password_verify($oldPassword, $_SESSION['username']['password'])) {
+            $error = "Incorrect old password.";
+        } elseif ($newPassword != $confirmPassword) {
+            $error = "New password and confirm password do not match.";
+        } elseif (count($checkEmailUser) > 0) {
+            $error = "Email is already in use.";
+        }
     }
-
-    
-
-    // $_SESSION['users'] = $userList;
-    // if (isset($newPassword) && !empty($newPassword)) {
-    //     unset($_SESSION['username']);
-    //     header("Location: ../../landingpage.php");
-    // } else {
-    //     header("Location: " . $_SERVER['PHP_SELF']);
-    // }
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crypto Web Profile Settings</title>
-    <link rel="stylesheet" href="../css/profile.css">
+    <link rel="stylesheet" href="../../assets/css/profile.css">
 </head>
-
 <body>
     <div class="profile-header">
         <a class="btn-back" href="../../home.php">Back</a>
@@ -104,6 +92,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="edit-profile">
                 <form action="" method="POST" enctype="multipart/form-data">
 
+                    <!-- Display Error Message -->
+                    <?php if (!empty($error)): ?>
+                        <center class="error-message" style="color: red;"><?php echo $error; ?></center>
+                    <?php endif; ?>
+
                     <!-- Avatar Upload -->
                     <div class="avatar-section">
                         <label for="avatar-upload" class="avatar-label">
@@ -112,13 +105,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <input type="file" id="avatar-upload" name="avatar-upload" style="display: none;" accept="image/*">
                         <p class="upload-instructions">Click the image to upload a new avatar</p>
                     </div>
-                    <center> <font color=red><?php echo $_SESSION["error"]; ?></font><br></center>
-                        
-                    <!-- Username -->
+
+                    <!-- Email -->
                     <label for="email">Email</label>
                     <input type="text" id="email" name="email" value="<?php echo $currentUser['email'] ?>">
 
-                    <!-- Old pass -->
+                    <!-- Old Password -->
                     <label for="oldPassword">Old Password</label>
                     <input type="password" id="oldPassword" name="oldPassword">
 
@@ -136,5 +128,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 
 </body>
-
 </html>

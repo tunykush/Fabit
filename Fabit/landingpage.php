@@ -1,5 +1,5 @@
 <?php 
-  include './assets/php/header.php';
+  include '../Fabit/app/views/header.php';
 ?>
     <main>
       <article>
@@ -979,7 +979,7 @@
     </main>
 
 <?php
-  include './assets/php/footer.php';
+  include '../Fabit/app/views/footer.php';
 ?>
 
 

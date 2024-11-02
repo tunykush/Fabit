@@ -3,8 +3,8 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-include_once '/xampp/htdocs/Fabit/vendor/autoload.php'; 
-include 'pdo.php';
+require __DIR__ . '/../../vendor/autoload.php';
+include __DIR__ . '/../models/pdo.php';
 
 function register($userName, $email, $password)
 {
@@ -187,7 +187,7 @@ function sendOtpToEmail($email, $otp) {
 
 <div class="container">
     <div class="top-stroke"></div>
-    <img src="/xampp/htdocs/Fabit/assets/images/avatar/Fabitlogoo.svg" alt="Fabit Logo" class="logo">
+    <img src="https://i.ibb.co/tLTWs4z/Frame-1000003039.png" alt="Fabit Logo" class="logo">
     <h1>Email Verification Code</h1>
     <p class="info-text">Thank you for creating an account with Fabit ©.</p>
     <p class="info-text">This is the verification code to complete your registration:</p>

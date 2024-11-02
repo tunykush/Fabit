@@ -1,6 +1,6 @@
 <?php
 session_start();
-include_once("../config/php/authModel.php");
+include_once("../controllers/authModel.php");
 if (isset($_SESSION['username'])) {
     header("Location:../../home.php");
     exit;
@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
     $checkUser = checkUser($userName);
 
    
-    if ($captchaInput !== $_SESSION['captchaText']) {
+    if (isset($_SESSION['captchaText']) && $captchaInput !== $_SESSION['captchaText']) {
         $loginError = "Incorrect Captcha. Please try again.";
     } else {
         if (is_array($checkUser)) {
@@ -75,38 +75,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login & Signup</title>
-    <link rel="stylesheet" href="../css/logsign.css"/>
-    <link rel="stylesheet" href="../css/logsigeffects.css"/>
+    <link rel="stylesheet" href="../../assets/css/logsign.css"/>
+    <link rel="stylesheet" href="../../assets/css/logsigeffects.css"/>
 </head>
 
 <body>
 
 <div class="falling-images-container">
-    <img src="../images/star1.svg" alt="Random Image" class="falling-image">
-    <img src="../images/star2.svg" alt="Random Image" class="falling-image">
-    <img src="../images/star3.svg" alt="Random Image" class="falling-image">
-    <img src="../images/star4.svg" alt="Random Image" class="falling-image">
-    <img src="../images/star5.svg" alt="Random Image" class="falling-image">
-    <img src="../images/star6.svg" alt="Random Image" class="falling-image">
-    <img src="../images/star7.svg" alt="Random Image" class="falling-image">
-    <img src="../images/star8.svg" alt="Random Image" class="falling-image">
-    <img src="../images/star9.svg" alt="Random Image" class="falling-image">
-    <img src="../images/star10.svg" alt="Random Image" class="falling-image">
-    <img src="../images/star11.svg" alt="Random Image" class="falling-image">
-    <img src="../images/star12.svg" alt="Random Image" class="falling-image">
-    <img src="../images/star13.svg" alt="Random Image" class="falling-image">
-    <img src="../images/star14.svg" alt="Random Image" class="falling-image">
-    <img src="../images/star15.svg" alt="Random Image" class="falling-image">
-    <img src="../images/star16.svg" alt="Random Image" class="falling-image">
-    <img src="../images/star17.svg" alt="Random Image" class="falling-image">
-    <img src="../images/star18.svg" alt="Random Image" class="falling-image">
-    <img src="../images/star19.svg" alt="Random Image" class="falling-image">
-    <img src="../images/star20.svg" alt="Random Image" class="falling-image">
-    <img src="../images/star21.svg" alt="Random Image" class="falling-image">
-    <img src="../images/star22.svg" alt="Random Image" class="falling-image">
-    <img src="../images/star23.svg" alt="Random Image" class="falling-image">
-    <img src="../images/star24.svg" alt="Random Image" class="falling-image">
-    <img src="../images/star25.svg" alt="Random Image" class="falling-image">
+    <img src="../../assets/images/star1.svg" alt="Random Image" class="falling-image">
+    <img src="../../assets/images/star2.svg" alt="Random Image" class="falling-image">
+    <img src="../../assets/images/star3.svg" alt="Random Image" class="falling-image">
+    <img src="../../assets/images/star4.svg" alt="Random Image" class="falling-image">
+    <img src="../../assets/images/star5.svg" alt="Random Image" class="falling-image">
+    <img src="../../assets/images/star6.svg" alt="Random Image" class="falling-image">
+    <img src="../../assets/images/star7.svg" alt="Random Image" class="falling-image">
+    <img src="../../assets/images/star8.svg" alt="Random Image" class="falling-image">
+    <img src="../../assets/images/star9.svg" alt="Random Image" class="falling-image">
+    <img src="../../assets/images/star10.svg" alt="Random Image" class="falling-image">
+    <img src="../../assets/images/star11.svg" alt="Random Image" class="falling-image">
+    <img src="../../assets/images/star12.svg" alt="Random Image" class="falling-image">
+    <img src="../../assets/images/star13.svg" alt="Random Image" class="falling-image">
+    <img src="../../assets/images/star14.svg" alt="Random Image" class="falling-image">
+    <img src="../../assets/images/star15.svg" alt="Random Image" class="falling-image">
+    <img src="../../assets/images/star16.svg" alt="Random Image" class="falling-image">
+    <img src="../../assets/images/star17.svg" alt="Random Image" class="falling-image">
+    <img src="../../assets/images/star18.svg" alt="Random Image" class="falling-image">
+    <img src="../../assets/images/star19.svg" alt="Random Image" class="falling-image">
+    <img src="../../assets/images/star20.svg" alt="Random Image" class="falling-image">
+    <img src="../../assets/images/star21.svg" alt="Random Image" class="falling-image">
+    <img src="../../assets/images/star22.svg" alt="Random Image" class="falling-image">
+    <img src="../../assets/images/star23.svg" alt="Random Image" class="falling-image">
+    <img src="../../assets/images/star24.svg" alt="Random Image" class="falling-image">
+    <img src="../../assets/images/star25.svg" alt="Random Image" class="falling-image">
 </div>
 
 <div class="back-button">
@@ -139,7 +139,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
             <div class="captcha-container">
                 <canvas id="captchaCanvas"></canvas>
                 <button type="button" onclick="generateCaptcha()">
-                    <img src="../images/captcha.svg" alt="Refresh Captcha" class="captcha-icon" width="20px"
+                    <img src="../../assets/images/captcha.svg" alt="Refresh Captcha" class="captcha-icon" width="20px"
                          height="20px"/>
                 </button>
             </div>
@@ -170,8 +170,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
     </div>
 </div>
 
-<script src="../js/captcha.js"></script>
-<script src="../js/logsigeffects.js"></script>
+<script src="../../assets/js/captcha.js"></script>
+<script src="../../assets/js/logsigeffects.js"></script>
 </body>
 
 </html>

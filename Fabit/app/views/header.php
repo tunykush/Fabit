@@ -84,10 +84,10 @@
         </button>
 
         <div class="btn-containerr">
-          <a href="assets/php/logsign.php" id="loginBtn" class="btn-stroke"
+          <a href="../Fabit/app/views/logsign.php" id="loginBtn" class="btn-stroke"
             >Login</a
           >
-          <a href="assets/php/logsign.php" id="signupBtn" class="btn-stroke"
+          <a href="../Fabit/app/views/logsign.php" id="signupBtn" class="btn-stroke"
             >Sign Up</a
           >
           <div class="line-next-to-btn"></div>
