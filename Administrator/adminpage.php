@@ -1,20 +1,27 @@
 <?php
 include_once("../Administrator/app/config/dbconnect.php");
+include ("../Administrator/app/models/usersModel.php");
 $userList = $connect -> query("SELECT * FROM users");
 
 
-function lockUser($user) {
-    global $conn;
-    $conn->query("UPDATE users SET isLocked = 1 WHERE userName = '$user' OR email = '$user'");
+
+
+if (isset($_GET['action']) && isset($_GET['user'])) {
+    $action = $_GET['action'];
+    $user = $_GET['user'];
+
+    if ($action === 'lock') {
+        lockUser($user);
+        header("Location:adminpage.php");
+    } else if ($action === 'unlock') {
+        unlockUser($user);
+        header("Location:adminpage.php");
+        $unlocked = true;
+
+    }
 }
 
-function unlockUser($user) {
-    global $conn;
-    $conn->query("UPDATE users SET isLocked = 0 WHERE userName = '$user' OR email = '$user'");
-}
 ?>
-
-
 
 
 
@@ -29,6 +36,7 @@ function unlockUser($user) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
     <link rel="stylesheet" href="../Administrator/assets/css/admin.css">
+    <link rel="stylesheet" href="../Administrator/assets/css/restricted.css">
     <title>Admin</title>
 </head>
 
@@ -230,11 +238,11 @@ function unlockUser($user) {
                     </td>
                     <td style="text-align: center;">
                         <?php if ($user['isLocked']): ?>
-                            <a href="?action=unlock&user=<?= urlencode($user['email']) ?>" style="color: blue; text-decoration: underline;">
+                            <a href="?action=unlock&user=<?= urlencode($user['userName']) ?>" class="loop-border-button">
                                 Unlock
                             </a>
                         <?php else: ?>
-                            <a href="?action=lock&user=<?= urlencode($user['userName']) ?>" style="color: blue; text-decoration: underline;">
+                            <a href="?action=lock&user=<?= urlencode($user['userName']) ?>"class="loop-border-button">
                                 Lock
                             </a>
                         <?php endif; ?>

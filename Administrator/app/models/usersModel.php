@@ -13,8 +13,8 @@ function lockUser($userName): bool
     $sql = "UPDATE users SET isLocked=1 WHERE userName='$userName'";
     return pdo_execute($sql);
 }
-function unlockUser($gmail)
+function unlockUser($userName)
 {
-    $sql = "UPDATE users SET isLocked=0, countWrongPass=0 WHERE email='$gmail'";
+    $sql = "UPDATE users SET isLocked=0, countWrongPass=0 WHERE userName='$userName'";
     return pdo_execute($sql);
 }
