@@ -118,6 +118,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
         <div class="form-toggle">
             <button class="login-form-buttons" id="loginBtn">Log In</button>
             <button class="login-form-buttons" id="signupBtn">Sign Up</button>
+            <a href="unlockUser.php"><button class="login-form-buttons" id="signupBtn">UnLock</button></a>
         </div>
 
         <div class="error-message">

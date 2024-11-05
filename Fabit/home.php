@@ -10,6 +10,10 @@ include_once("app/controllers/authModel.php");
 $userList = getAllUser();
 $currentUser = null;
 
+if($_SESSION['username'] == null){
+    header("Location:./landingpage.php");
+    exit;
+}
 foreach ($userList as $user) {
     if ($user['userName'] == $_SESSION['username']['userName']) {
         $currentUser = $user;
@@ -18,7 +22,6 @@ foreach ($userList as $user) {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['logout'])) {
     unset($_SESSION['username']);
-    echo "a";
     header("Location: landingpage.php");
     exit;
 }
