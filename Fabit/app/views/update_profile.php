@@ -10,11 +10,11 @@ ini_set('post_max_size', '50M');
 $userList = getAllUser();
 $currentUser = null;
 
-// Tìm người dùng hiện tại
+// Find users
 foreach ($userList as $user) {
     if ($user['userName'] == $_SESSION['username']['userName']) {
         $currentUser = $user;
-        break; // Dừng vòng lặp nếu tìm thấy người dùng
+        break; //Break the loop if can find users
     }
 }
 

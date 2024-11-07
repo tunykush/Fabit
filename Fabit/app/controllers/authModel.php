@@ -8,60 +8,68 @@ include __DIR__ . '/../models/pdo.php';
 
 function register($userName, $email, $password)
 {
-    $sql = "INSERT INTO users( userName, email, password) VALUES ('$userName', '$email', '$password')";
+    $sql = "INSERT INTO users_tony( userName, email, password) VALUES ('$userName', '$email', '$password')";
     return mysql_execute($sql);
 }
 
 function getAllUser()
 {
-    $sql = "SELECT * FROM users";
+    $sql = "SELECT * FROM users_tony";
     return mysqliQuery($sql);
 }
-
+function removeMySelf($id,$username){
+    $sql = "DELETE FROM users_tony WHERE id=$id AND userName = '$username'";
+    return mysql_execute($sql);
+}
+// function disableAccount($id, $username) {
+//     $sql = "UPDATE users_tony SET status='disabled' WHERE id=$id AND userName = '$username'";
+//     return mysql_execute($sql);
+// }
 function checkUserExist($username, $email)
 {
-    $sql = "SELECT * FROM users WHERE userName='$username' OR email='$email'";
+    $sql = "SELECT * FROM users_tony WHERE userName='$username' OR email='$email'";
     $rs = mysqliQuery($sql);
     return $rs;
 }
 
 function checkUser($userName)
 {
-    $sql = "SELECT * FROM users WHERE userName='$userName'";
+    $sql = "SELECT * FROM users_tony WHERE userName='$userName'";
     return pdo_query_one($sql);
 }
 
 function checkEmailUser($email)
 {
-    $sql = "SELECT * FROM users WHERE email='$email'";
+    $sql = "SELECT * FROM users_tony WHERE email='$email'";
     return pdo_query($sql);
 }
 
 function increaseCountWrongPass($userName)
 {
-    $sql = "UPDATE users SET countWrongPass=countWrongPass+1 WHERE userName='$userName'";
+    $sql = "UPDATE users_tony SET countWrongPass=countWrongPass+1 WHERE userName='$userName'";
     return pdo_execute($sql);
 }
 
 function lockUser($userName)
 {
-    $sql = "UPDATE users SET isLocked=1 WHERE userName='$userName'";
+    $lockout_time = date("Y-m-d H:i:s", strtotime("+1 hour"));
+    $sql = "UPDATE users_tony SET isLocked=1, lock_time='$lockout_time', countWrongPass=0  WHERE userName='$userName'";
     return pdo_execute($sql);
 }
 function unlockUser($gmail)
 {
-    $sql = "UPDATE users SET countWrongPass= 0, isLocked= 0 WHERE email='$gmail'";
+    $sql = "UPDATE users_tony SET countWrongPass= 0, isLocked= 0, lock_time=null WHERE email='$gmail'";
     return pdo_execute($sql);
 }
 function clearCountWrongPass($userName)
 {
-    $sql = "UPDATE users SET countWrongPass=0 WHERE userName='$userName'";
+    $sql = "UPDATE users_tony SET countWrongPass=0 WHERE userName='$userName'";
     return pdo_execute($sql);
 }
 
 function updateUser($email, $password, $avatar, $id)
 {
-    $sql = "UPDATE users SET email=:email,password=:password,avatar=:avatar WHERE id=:id";
+    $sql = "UPDATE users_tony SET email=:email,password=:password,avatar=:avatar WHERE id=:id";
     $conn = pdo_get_connection();
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':email', $email);
@@ -70,9 +78,13 @@ function updateUser($email, $password, $avatar, $id)
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
     return $stmt->execute();
 }
+function logout(){
+    unset($_SESSION['username']);
+    header("Location: landingpage.php");
+}
 function hasAvatar($userId)
 {
-    $sql = "SELECT avatar FROM users WHERE id=:id";
+    $sql = "SELECT avatar FROM users_tony WHERE id=:id";
     $conn = pdo_get_connection();
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':id', $userId, PDO::PARAM_INT);

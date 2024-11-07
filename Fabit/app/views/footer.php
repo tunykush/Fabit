@@ -68,7 +68,7 @@
             </li>
 
             <li>
-              <a href="/assets/php/feedback.php" class="footer-link">User Feedback</a>
+              <a href="../Fabit/app/utils/feedback.php" class="footer-link">User Feedback</a>
             </li>
 
             <li>

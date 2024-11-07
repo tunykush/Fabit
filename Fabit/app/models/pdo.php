@@ -1,13 +1,13 @@
 <?php
 /**
- * Mở kết nối đến CSDL sử dụng PDO
+ * connection db by using PDO
  */
-define('DBHOST', '127.0.0.1:3306');
-define('DBUSER', 'root');
-define('DBPASS', '');
-define('DBNAME', 'tuny_db');
+define('DBHOST', 'talsprddb02.int.its.rmit.edu.au:3306');
+define('DBUSER', 'COSC3046_2402_UGRD_1479_G25');
+define('DBPASS', '5lnueMpp5EKC');
+define('DBNAME', 'COSC3046_2402_UGRD_1479_G25');
 
-//hàm connect với database
+//hàm connect với database 
 function pdo_get_connection()
 {
     $conn = new PDO('mysql:host=' . DBHOST . ';dbname=' . DBNAME, DBUSER, DBPASS);

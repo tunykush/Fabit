@@ -1,10 +1,13 @@
 <?php
+session_start();
 include_once("../Administrator/app/config/dbconnect.php");
 include ("../Administrator/app/models/usersModel.php");
-$userList = $connect -> query("SELECT * FROM users");
+$userList = $connect -> query("SELECT * FROM users_tony");
 
-
-
+if(!isset($_SESSION['username']) || $_SESSION['username']['role_'] != 'ROLE_ADMIN'){
+    header("Location: ../Fabit/app/views/logsign.php"); 
+    exit();
+}
 
 if (isset($_GET['action']) && isset($_GET['user'])) {
     $action = $_GET['action'];
@@ -20,12 +23,14 @@ if (isset($_GET['action']) && isset($_GET['user'])) {
 
     }
 }
+$adminInfo  = $_SESSION['username'];
 
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['logout'])) {
+    unset($_SESSION['username']);
+    header("Location: ../Fabit/landingpage.php");
+    exit;
+}
 ?>
-
-
-
-
 
 
 <!DOCTYPE html>
@@ -37,6 +42,7 @@ if (isset($_GET['action']) && isset($_GET['user'])) {
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
     <link rel="stylesheet" href="../Administrator/assets/css/admin.css">
     <link rel="stylesheet" href="../Administrator/assets/css/restricted.css">
+    <link rel="shortcut icon" href="ffavicon.svg" type="image/svg+xml" />
     <title>Admin</title>
 </head>
 
@@ -64,7 +70,7 @@ if (isset($_GET['action']) && isset($_GET['user'])) {
                     </span>
                     <h3>Dashboard</h3>
                 </a>
-                <a href="#">
+                <a href="#" class="active" >
                     <span class="material-icons-sharp">
                         person_outline
                     </span>
@@ -76,7 +82,7 @@ if (isset($_GET['action']) && isset($_GET['user'])) {
                     </span>
                     <h3>History</h3>
                 </a>
-                <a href="#" class="active">
+                <a href="#">
                     <span class="material-icons-sharp">
                         insights
                     </span>
@@ -84,9 +90,9 @@ if (isset($_GET['action']) && isset($_GET['user'])) {
                 </a>
                 <a href="#">
                     <span class="material-icons-sharp">
-                        mail_outline
+                        forum
                     </span>
-                    <h3>Tickets</h3>
+                    <h3>Forum</h3>
                     <span class="message-count">27</span>
                 </a>
                 <a href="#">
@@ -114,14 +120,17 @@ if (isset($_GET['action']) && isset($_GET['user'])) {
                     <h3>New Login</h3>
                 </a>
                 <a href="#">
-                    <span class="material-icons-sharp">
-                        logout
-                    </span>
-                    <h3>Logout</h3>
+                <form action="" method="POST">
+                <input name="logout" hidden>
+                <span class="material-icons-sharp"> logout </span>
+                <!-- <h3>Logout</h3> -->
+                <input type="submit" value="Logout" class="logout">
+            </form>
                 </a>
             </div>
         </aside>
         <!-- End of Sidebar Section -->
+        
 
         <!-- Main Content -->
         <main>
@@ -131,8 +140,8 @@ if (isset($_GET['action']) && isset($_GET['user'])) {
                 <div class="sales">
                     <div class="status">
                         <div class="info">
-                            <h3>Total Sales</h3>
-                            <h1>$65,024</h1>
+                            <h3>Total Rent</h3>
+                            <h1>$13,452</h1>
                         </div>
                         <div class="progresss">
                             <svg>
@@ -184,22 +193,22 @@ if (isset($_GET['action']) && isset($_GET['user'])) {
                 <h2>New Users</h2>
                 <div class="user-list">
                     <div class="user">
-                        <img src="images/profile-2.jpg">
-                        <h2>Jack</h2>
+                        <img src="../Administrator/assets/images/im1.jpg">
+                        <h2>Ming</h2>
                         <p>54 Min Ago</p>
                     </div>
                     <div class="user">
-                        <img src="images/profile-3.jpg">
-                        <h2>Amir</h2>
+                        <img src="../Administrator/assets/images/im2.jpg">
+                        <h2>Cir</h2>
                         <p>3 Hours Ago</p>
                     </div>
                     <div class="user">
-                        <img src="images/profile-4.jpg">
-                        <h2>Ember</h2>
+                        <img src="../Administrator/assets/images/im3.jpg">
+                        <h2>AnNam</h2>
                         <p>6 Hours Ago</p>
                     </div>
                     <div class="user">
-                        <img src="images/plus.png">
+                        <img src="../Administrator/assets/images/im4.png">
                         <h2>More</h2>
                         <p>New User</p>
                     </div>
@@ -278,11 +287,11 @@ if (isset($_GET['action']) && isset($_GET['user'])) {
 
                 <div class="profile">
                     <div class="info">
-                        <p>Hey, <b>Reza</b></p>
+                        <p>Hey, <b><?=$adminInfo['userName']?></b></p>
                         <small class="text-muted">Admin</small>
                     </div>
                     <div class="profile-photo">
-                        <img src="../Administrator/assets/images/ava.jpg">
+                        <img src="<?=$adminInfo['avatar']?>">
                     </div>
                 </div>
 
@@ -291,9 +300,9 @@ if (isset($_GET['action']) && isset($_GET['user'])) {
 
             <div class="user-profile">
                 <div class="logo">
-                    <img src="images/logo.png">
-                    <h2>AsmrProg</h2>
-                    <p>Fullstack Web Developer</p>
+                    <img src="../Administrator/assets/images/ffavicon.svg">
+                    <h2>Fabit management</h2>
+                    <p>Administrator</p>
                 </div>
             </div>
 
@@ -308,12 +317,12 @@ if (isset($_GET['action']) && isset($_GET['user'])) {
                 <div class="notification">
                     <div class="icon">
                         <span class="material-icons-sharp">
-                            volume_up
+                            bug_report
                         </span>
                     </div>
                     <div class="content">
                         <div class="info">
-                            <h3>Workshop</h3>
+                            <h3>Server panic system update</h3>
                             <small class="text_muted">
                                 08:00 AM - 12:00 PM
                             </small>
@@ -327,12 +336,13 @@ if (isset($_GET['action']) && isset($_GET['user'])) {
                 <div class="notification deactive">
                     <div class="icon">
                         <span class="material-icons-sharp">
-                            edit
+                                report
                         </span>
                     </div>
                     <div class="content">
                         <div class="info">
-                            <h3>Workshop</h3>
+                            <h3>
+                            User's crypto withdrawal gateway is experiencing a disruption</h3>
                             <small class="text_muted">
                                 08:00 AM - 12:00 PM
                             </small>
@@ -359,7 +369,8 @@ if (isset($_GET['action']) && isset($_GET['user'])) {
 
     </div>
 
-    <script src="../Administrator/assets/js/orders.js"></script>
+    
+    
     <script src="../Administrator/assets/js/index.js"></script>
 </body>
 

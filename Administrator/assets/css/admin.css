@@ -710,3 +710,10 @@ main .recent-orders a{
     }
 
 }
+
+.logout {
+    all: unset;
+
+    font-size: 0.87rem;
+    font-weight: 500;
+}

@@ -8,8 +8,11 @@ include_once("app/controllers/authModel.php");
 // }
 
 $userList = getAllUser();
-$currentUser = null;
+$currentUser = $_SESSION['username'];
 
+if( $currentUser!= null && $currentUser['role_'] == 'ROLE_ADMIN'){
+  header("Location:../Administrator/adminpage.php");
+}
 if($_SESSION['username'] == null){
     header("Location:./landingpage.php");
     exit;
@@ -21,9 +24,17 @@ foreach ($userList as $user) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['logout'])) {
-    unset($_SESSION['username']);
-    header("Location: landingpage.php");
+    logout();
     exit;
+}
+
+if (isset($_POST['delete_account'])) {
+  if (removeMySelf($currentUser['id'],$currentUser['userName'])) {
+      echo "Account has been disabled successfully.";
+      logout();
+  } else {
+      echo "Error: Unable to disable account.";
+  }
 }
 ?>
 <!DOCTYPE html>
@@ -47,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['logout'])) {
       <aside>
         <div class="top">
           <div class="logo">
-            <img src="../ffavicon.svg" alt="Logo" />
+            <img src="ffavicon.svg" alt="Logo" />
             <h2>Fabit<span class="danger"></span></h2>
           </div>
           <div class="close" id="close-btn">
@@ -96,6 +107,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['logout'])) {
           <a href="../Fabit/app/views/profile.php">
             <span class="material-icons-sharp"> settings </span>
             <h3>Settings</h3>
+          </a>
+          <a href="<?=$_SERVER['PHP_SELF']?>">
+            <form action="" method="POST">
+                  <input name="delete_account" value="1" hidden>
+                  <span class="material-icons-sharp"> delete </span>
+                  <input type="submit"  value="Delete Account" class="logout">
+              </form>
           </a>
           <a href="">
             <form action="" method="POST">
