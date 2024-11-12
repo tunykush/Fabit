@@ -16,11 +16,9 @@ function validSignup($username,$password,$confirmPassword,$email){
         return[false,"Username need to be more than 3 letters and not included number and special character"];
     }
     if(!preg_match($pattern,$email)){
-        return[false,"Email not valid"];
+        return[false,"Email is not valid"];
     }
     
-   
-
     if(!preg_match($passwdPattern,$password)){
         return[false,"Password contains 8 letters (1 upper and 1 lower) with at least 1 special character"];
     }
@@ -73,7 +71,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup'])) {
     <title>Login & Signup</title>
     <link rel="stylesheet" href="../../assets/css/logsign.css"/>
     <link rel="stylesheet" href="../../assets/css/logsigeffects.css"/>
-    
+    <link rel="shortcut icon" href="../../assets/images/ffavicon.svg" type="image/svg+xml" />
+    <style>
+    .error-message{
+        color:red;
+        font-size:12px;
+    }
+    .active{
+        background-color:black!important;
+        color:white!important;
+    }
+    </style>
 </head>
 
 <body>
@@ -114,7 +122,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup'])) {
     <div class="form-container">
         <div class="form-toggle">
             <a href="logsign.php"><button class="login-form-buttons">Log In</button></a>
-            <button class="login-form-buttons">Sign Up</button>
+            <button class="login-form-buttons active">Sign Up</button>
             <a href="unlockUser.php"><button class="login-form-buttons" id="signupBtn">UnLock</button></a>
         </div>
        
@@ -124,22 +132,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup'])) {
        
         <!-- Signup Form -->
         <form id="signupForm" action="" class="form" method="POST">
+        <input type="hidden" name="signup" value="1">
             <h2>Sign Up</h2>
             <div class="input-wrapper">
-                <input class="input-field" type="text" id="signupUsername" name="signupUsername" required>
+                <input class="input-field" type="text" id="signupUsername" name="signupUsername">
                 <label class="input-label">Username</label>
+                <span class="error-message" id="username-message"></span>
             </div>
             <div class="input-wrapper">
-                <input class="input-field" type="email" id="signupEmail" name="signupEmail" required>
+                <input class="input-field" type="email" id="signupEmail" name="signupEmail">
                 <label class="input-label">Email</label>
+                <span class="error-message" id="email-message"></span>
+
             </div>
             <div class="input-wrapper">
-                <input class="input-field" type="password" id="signupPassword" name="signupPassword" required>
+                <input class="input-field" type="password" id="signupPassword" name="signupPassword">
                 <label class="input-label">Password</label>
+                <span class="error-message" id="password-message"></span>
+
             </div>
             <div class="input-wrapper">
-                <input class="input-field" type="password" id="signupPassword" name="signupCPassword" required>
+                <input class="input-field" type="password" id="signupCPassword" name="signupCPassword">
                 <label class="input-label">Confirm Your Password</label>
+                <span class="error-message" id="confirmpassword-message"></span>
+
             </div>
 
             <button type="submit" name="signup">Sign Up</button>
@@ -149,6 +165,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup'])) {
 
 <script src="../../assets/js/captcha.js"></script>
 <script src="../../assets/js/logsigeffects.js"></script>
+<script src="../../assets/js/valid_reg.js"></script>
 </body>
 
 </html>

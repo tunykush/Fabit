@@ -50,6 +50,7 @@ if (isset($_POST['delete_account'])) {
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./assets/css/home.css" />
+    <link rel="stylesheet" href="./assets/css/modal.css"/>
     <link rel="shortcut icon" href="ffavicon.svg" type="image/svg+xml" />
     
   </head>
@@ -108,12 +109,23 @@ if (isset($_POST['delete_account'])) {
             <span class="material-icons-sharp"> settings </span>
             <h3>Settings</h3>
           </a>
-          <a href="<?=$_SERVER['PHP_SELF']?>">
-            <form action="" method="POST">
-                  <input name="delete_account" value="1" hidden>
-                  <span class="material-icons-sharp"> delete </span>
-                  <input type="submit"  value="Delete Account" class="logout">
-              </form>
+          <a>
+          <form id="deleteAccountForm" action="" method="POST">
+            <input name="delete_account" value="1" hidden>
+            <span class="material-icons-sharp"> delete </span>
+            <input type="submit" value="Delete Account" class="logout">
+          </form>
+
+        <!-- Warning Modal -->
+        <div id="warningModal" class="modal">
+            <div class="modal-content">
+                <span class="close-button" onclick="closeWarningModal()">&times;</span>
+                <h2>Are you sure?</h2>
+                <p>Do you really want to delete your account? This process cannot be undone.</p>
+                <button onclick="confirmDeletion()">Yes, Delete</button>
+                <button onclick="closeWarningModal()">Cancel</button>
+            </div>
+        </div>
           </a>
           <a href="">
             <form action="" method="POST">
@@ -257,5 +269,36 @@ if (isset($_POST['delete_account'])) {
     <script src="assets/js/homejs/update-data.js"></script>
     <script src="assets/js/homejs/sales-analytics-data.js"></script>
     <script src="assets/js/home.js"></script>
+    <script>
+    const deleteAccountForm = document.getElementById('deleteAccountForm');
+    deleteAccountForm.addEventListener('submit',beforeSubmit);
+
+    function beforeSubmit (e){
+      e.preventDefault();
+      showWarningModal();
+    }
+    function showWarningModal() {
+        document.getElementById('warningModal').style.display = 'block';
+    }
+
+    function closeWarningModal() {
+      console.log('here')
+        document.getElementById('warningModal').style.display = 'none';
+    }
+
+    function confirmDeletion() {
+      console.log('here');
+        closeWarningModal();
+        deleteAccountForm.submit();
+    }
+
+    // Close modal if the user clicks outside of it
+    window.onclick = function(event) {
+        const modal = document.getElementById('warningModal');
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
   </body>
 </html>

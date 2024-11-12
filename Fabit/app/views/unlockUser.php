@@ -73,6 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['verifyOtp'])) {
     <title>OTP Verification</title>
     <link rel="stylesheet" href="../../assets/css/logsign.css"/>
     <link rel="stylesheet" href="../../assets/css/logsigeffects.css"/>
+    <link rel="shortcut icon" href="../../assets/images/ffavicon.svg" type="image/svg+xml" />
 </head>
 <body>
 

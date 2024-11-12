@@ -14,7 +14,7 @@ function register($userName, $email, $password)
 
 function getAllUser()
 {
-    $sql = "SELECT * FROM users_tony";
+    $sql = "SELECT * FROM users_tony where role_ != 'ROLE_ADMIN'";
     return mysqliQuery($sql);
 }
 function removeMySelf($id,$username){

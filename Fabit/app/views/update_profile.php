@@ -36,12 +36,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $checkEmailUser = checkEmailUser($email);
     }
 
-    // Kiểm tra điều kiện
+    // Condition double check
     if (isset($email) && count($checkEmailUser) == 0 && password_verify($oldPassword, $_SESSION['username']['password']) && $newPassword == $confirmPassword) {
         $newpass = password_hash($newPassword, PASSWORD_BCRYPT);
         $avatarNameNew = null;
 
-        // Xử lý tải lên hình ảnh
+        // Proccesing upload pics
         if (isset($_FILES['avatar-upload']) && $_FILES['avatar-upload']['error'] == 0) {
             $avatar = $_FILES['avatar-upload'];
             $avatarTmpName = $avatar['tmp_name'];
@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $avatarNameNew = 'data:image/png;base64,' . base64_encode(file_get_contents('../images/avatar/default.png'));
         }
 
-        // Cập nhật người dùng
+        // Update users
         if (!updateUser($email, $newpass, $avatarNameNew, $_SESSION['username']['id'])) {
             die('Error updating user.');
         }

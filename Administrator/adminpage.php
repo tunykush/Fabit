@@ -2,7 +2,6 @@
 session_start();
 include_once("../Administrator/app/config/dbconnect.php");
 include ("../Administrator/app/models/usersModel.php");
-$userList = $connect -> query("SELECT * FROM users_tony");
 
 if(!isset($_SESSION['username']) || $_SESSION['username']['role_'] != 'ROLE_ADMIN'){
     header("Location: ../Fabit/app/views/logsign.php"); 
@@ -24,6 +23,7 @@ if (isset($_GET['action']) && isset($_GET['user'])) {
     }
 }
 $adminInfo  = $_SESSION['username'];
+$userList = getAllUser($adminInfo['userName']);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['logout'])) {
     unset($_SESSION['username']);
@@ -31,7 +31,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['logout'])) {
     exit;
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">

@@ -919,12 +919,12 @@
 
             <ul class="latest_list">
               <li class="latest-item">
-                <img src="./assets/images/livechart.png" alt="" />
-                <h3>Extra Website Security</h3>
-                <span>Robert Hayden</span>
+                <img src="./assets/images/news1.png" alt="" />
+                <h3>Bitcoin price metrics align to project further upside for BTC</h3>
+                <span>Cointelegraph By Marcel Pechman</span>
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Neque
-                  sit viverra turpis eu. Pellentesque
+                Bitcoin (BTC) surged by 10.5% to hit a new all-time high at $75,350 from Nov. 
+                5 to Nov. 6 following former US President Donald Trump's win....
                 </p>
                 <button>Read More</button>
               </li>
@@ -933,8 +933,9 @@
                 <h3>Elon to Put Dogecoin on the Moon</h3>
                 <span>Robert Hayden</span>
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Neque
-                  sit viverra turpis eu. Pellentesque
+                The current price of Dogelon Mars is $0.00000017 per ELON. With a circulating supply of 
+                549,652,770,159,583.3 ELON, it means that Dogelon Mars has a total market cap of $91,160,375.16. 
+                The amount of Dogelon Mars traded has risen by....
                 </p>
                 <button>Read More</button>
               </li>

@@ -63,7 +63,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
     <title>Login & Signup</title>
     <link rel="stylesheet" href="../../assets/css/logsign.css"/>
     <link rel="stylesheet" href="../../assets/css/logsigeffects.css"/>
-    
+    <link rel="shortcut icon" href="../../assets/images/ffavicon.svg" type="image/svg+xml" />
+    <style>
+        .active{
+        background-color:black!important;
+        color:white!important;
+      
+    }
+    .add-border{
+            border-left:1px soild black!important;
+        }
+    </style>
 </head>
 
 <body>
@@ -103,7 +113,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
 <div class="container">
     <div class="form-container">
         <div class="form-toggle">
-            <button class="login-form-buttons">Log In</button>
+            <button class="login-form-buttons active add-border">Log In</button>
             <a href="reg.php"><button class="login-form-buttons">Sign Up</button></a> 
             <a href="unlockUser.php"><button class="login-form-buttons">UnLock</button></a>
         </div>

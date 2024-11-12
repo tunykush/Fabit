@@ -3,9 +3,9 @@
 include 'pdo.php';
 
 
-function getAllUser()
+function getAllUser($username)
 {
-    $sql = "SELECT * FROM users_tony";
+    $sql = "SELECT * FROM users_tony where role_ != 'ROLE_ADMIN' AND userName != '$username'";
     return mysqliQuery($sql);
 }
 function lockUser($userName): bool
